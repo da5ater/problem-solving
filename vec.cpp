@@ -192,6 +192,8 @@ int main ()
     v.right_rotate(2000);
     v.print();
 
+    cout << "--------------";
+
 
      
 }
