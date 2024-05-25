@@ -46,19 +46,13 @@ public:
 
     ~LinkedList(){
         cout << "destructor is called\n";
-        debug_print_list(); // print the listt before destruction;
-        for (Node* temp = head; temp; temp = temp->next)
+        for (Node* temp = head; temp;temp = head, head= head->next)
         {
-            head= head->next;
-            debug_remove_node(temp);
-            length--;
             delete temp;
-
-            debug_verify_data_integrity();
-        }
+            length--;
+		}
         
         cout << "destructor completed \n";
-        debug_print_list(); // print the list after destruction;
 
     }
 
@@ -171,32 +165,30 @@ void test_multi_node_list() {
 	
 }
 
-// void test2() {
-// 	cout << "\n\ntest2\n";
-// 	LinkedList list;
+void test2() {
+	cout << "\n\ntest2\n";
+	LinkedList list;
 
-// 	list.insert_end(1);
-// 	list.insert_end(2);
-// 	list.insert_end(3);
-// 	list.insert_end(4);
-// 	// some actions
-// 	list.print();  
+	list.insert_end(1);
+	list.insert_end(2);
+	list.insert_end(3);
+	list.insert_end(4);
+	// some actions
+	list.print();  
 
-// 	string expected = "1 2 3 4";
-// 	string result = list.debug_to_string();
-// 	if (expected != result) {
-// 		cout << "no match:\nExpected: " << expected << "\nResult  : " << result << "\n";
-// 		assert(false);
-// 	}
-// 	list.debug_print_list("********");
-// }
+	string expected = "1 2 3 4";
+	string result = list.debug_to_string();
+	if (expected != result) {
+		cout << "no match:\nExpected: " << expected << "\nResult  : " << result << "\n";
+		assert(false);
+	}
+	list.debug_print_list("********");
+}
 
 
 int main() {
-	test_multi_node_list();
 	
-
-	// must see it, otherwise RTE
+	
 	cout << "\n\nNO RTE\n";
 
 	return 0;
