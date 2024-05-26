@@ -4,109 +4,102 @@ using namespace std;
 
 class Node
 {
-    public :
-        int value;
-        Node* next;
+public:
+    int value;
+    Node *next;
 
-        Node(int value) : value{value} , next{nullptr}
-        {
+    Node(int value) : value{value}, next{nullptr} {
 
-        };
+                                    };
 
-        ~Node(){
-            cout << "Destroy value ->" << value << " at " << this << endl; 
-        }
+    ~Node()
+    {
+        cout << "Destroy value ->" << value << " at " << this << endl;
+    }
 };
 
 class LL
 
 {
 
-    private:
+private:
+    Node *head;
 
-    Node* head;
-
-    Node* tail;
+    Node *tail;
 
     int length;
 
-    public:
+public:
+    LL(int value)
+    {
 
-    LL(int value){
-
-        Node* NewNode = new Node(value);
+        Node *NewNode = new Node(value);
 
         head = NewNode;
 
         tail = NewNode;
 
         length = 1;
-
     }
 
-    ~LL(){
+    ~LL()
+    {
         cout << "destructor is called\n";
 
-            
-            Node* temp = head;
-            while (head)
-            {
-                head = head ->next;
-                delete temp;    
-                length--;
-                temp = head;
-            }
-        
+        Node *temp = head;
+        while (head)
+        {
+            head = head->next;
+            delete temp;
+            length--;
+            temp = head;
+        }
     }
 
-    
+    void print()
+    {
 
-    void print(){
+        Node *temp = head;
 
-        Node* temp = head;
+        while (temp)
+        {
 
-        while(temp){
+            cout << temp->value << " ";
 
-        cout << temp->value << " ";
-
-        temp = temp->next;
-
+            temp = temp->next;
         }
 
         cout << endl;
-
     }
 
-    
+    void insert(int value)
+    {
 
-    void insert(int value) {
-
-        Node* NewNode = new Node(value);
+        Node *NewNode = new Node(value);
 
         if (!head)
 
         {
 
-        head = tail = NewNode;
+            head = tail = NewNode;
+        }
+        else
+        {
+            tail->next = NewNode;
 
-        }else{
-        tail->next = NewNode;
-
-        tail = tail->next;
-
+            tail = tail->next;
         }
         length++;
-
     }
-
 };
 
-int main(){
-    
-    LL* MyLL = new LL(3);
+int main()
+{
+
+    LL *MyLL = new LL(3);
 
     MyLL->insert(6);
     MyLL->insert(9);
-    
-    delete MyLL;   
+
+    delete MyLL;
 }
