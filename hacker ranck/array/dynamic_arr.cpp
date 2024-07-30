@@ -15,6 +15,7 @@ int main()
     vector<vector<int>> arr(n);
 
     int last_answer = 0;
+    vector<int> answers;
 
     //---------------------------------
     vector<vector<int>> queries = {
@@ -26,16 +27,20 @@ int main()
     //------------------------------------
     for (int row = 0; row < q; row++)
     {
-        for (int column = 0; column < 3; column++)
+        if (queries[row][0] == 1)
         {
-            if (queries[row][0] == 1)
-            {
-                cout << 1;
-            }
-            else
-            {
-                cout << 2;
-            }
+            int idx = (queries[row][1] ^ last_answer) % n;
+            arr[idx].push_back(queries[row][2]);
+        }
+        else
+        {
+            int idx = (queries[row][1] ^ last_answer) % n;
+            last_answer = arr[idx][queries[row][2] % arr[idx].size()];
+            answers.push_back(last_answer);
         }
     }
-}
+    //     for (auto &&i : answers)
+    //     {
+    //         cout << i;
+    //     }
+    // }
