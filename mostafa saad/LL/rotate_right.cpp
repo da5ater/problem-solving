@@ -65,6 +65,12 @@ public:
     }
 
     ListNode *rotateRight(ListNode *head, int k) {
+        if (head == nullptr) {
+            return nullptr;
+        } else if (head->next == nullptr) {
+            return head;
+        }
+        {}
         k = k % calculate_length(head);
         ListNode *temp = get_K(head, k);
         ListNode *new_tail = get_K(head, k + 1);
@@ -84,7 +90,7 @@ int main() {
     list.append(&head, 1);
     list.append(&head, 2);
     list.print(head);  // Output: 1 2 3
-
-        list.print(list.rotateRight(head, 4));
+    std ::cout << 2 % 2;
+    // list.print(list.rotateRight(head, 4));
     return 0;
 }
