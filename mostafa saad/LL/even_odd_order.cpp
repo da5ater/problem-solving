@@ -35,31 +35,26 @@ void append(ListNode*& head, int value) {
     }
 }
 
-ListNode* deleteNode(ListNode* head, ListNode* curr, queue<int>& saved) {
-    if (head == nullptr) {
-        return nullptr;
-    }
-    ListNode* target = curr->next;
-    curr->next = target->next;
-    saved.push(target->val);
-    delete target;
-    return curr->next;
-}
-
 ListNode* oddEvenList(ListNode* head) {
-    queue<int> save;
-    ListNode* temp = head;
-    if (!temp || !temp->next || !temp->next->next)
-        return temp;
-    while (temp->next) {
-        temp = deleteNode(head, temp, save);
+    if (head == nullptr || head->next == nullptr)
+        return head;  // If the list is empty or has only one node, return as is
+
+    ListNode* odd = head;  // Initialize odd pointer to the head of the list
+    ListNode* even = head->next;  // Initialize even pointer to the second node
+    ListNode* temp = even;        // Store the start of the even list
+
+    while (even != nullptr && even->next != nullptr) {
+        // Update odd and even pointers to skip one node each
+        odd->next = odd->next->next;
+        even->next = even->next->next;
+        odd = odd->next;
+        even = even->next;
     }
-    while (!save.empty()) {
-        append(head, save.front());
-        save.pop();
-    }
-    printList(head);
-    return head;
+
+    // Connect the end of the odd list to the start of the even list
+    odd->next = temp;
+
+    return head;  // Return the modified list
 }
 
 int main() {
@@ -72,7 +67,6 @@ int main() {
     append(head, 5);
     append(head, 6);
     append(head, 7);
-    append(head, 8);
 
     printList(head);  // Output: 1 2 3
     oddEvenList(head);
