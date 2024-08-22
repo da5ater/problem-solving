@@ -1,6 +1,4 @@
 #include <iostream>
-#include <unordered_set>
-
 using namespace std;
 struct ListNode {
     int val;
