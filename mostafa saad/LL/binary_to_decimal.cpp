@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <string>
 using namespace std;
 
 struct ListNode {
@@ -34,38 +34,26 @@ void append(ListNode*& head, int value) {
     }
 }
 
-void neo_append(ListNode*& head, ListNode*& tail) {
+int getDecimalValue(ListNode* head) {
+    if (!head)
+        return;
+
+    string out;
+
     ListNode* temp = head;
-    head = head->next;
-    tail->next = temp;
-    tail = temp;
-    tail->next = nullptr;
-}
 
-ListNode* partition(ListNode* head, int x) {
-    if (!head) {
-        return nullptr;
+    while (temp) {
+        out.append(to_string(temp->val));
+        temp = temp->next;
     }
 
-    ListNode* Sdummy = new ListNode(0);
-    ListNode* Stail = Sdummy;
-    ListNode* Bdummy = new ListNode(0);
-    ListNode* Btail = Bdummy;
-
-    while (head) {
-        if (head->val < x) {
-            neo_append(head, Stail);
-        } else {
-            neo_append(head, Btail);
-        }
-    }
-    Stail->next = Bdummy->next;
-    return Sdummy->next;
+    int decimal = stoi(out, nullptr, 2);
+    return decimal;
 }
 
 int main() {
     ListNode* head1 = nullptr;
-    append(head1, 1);
+    append(head1, 0);
 
-    printList(partition(head1, 3));
+    getDecimalValue(head1);
 }
