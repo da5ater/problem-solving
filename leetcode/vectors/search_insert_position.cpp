@@ -19,14 +19,7 @@ int searchInsert(vector<int> &nums, int target) {
       low = mid + 1;
     }
   }
-  if (high == 0) {
-    return (nums[0] < target) ? 1 : 0;
-  }
-
-  if (low == nums.size() - 1) {
-    return (nums[nums.size() - 1] < target) ? nums.size() : nums.size() - 2;
-  }
-  return mid;
+  return low;
 };
 
 int main() {
