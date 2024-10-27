@@ -12,13 +12,25 @@ void shift_right(vector<int> &nums1, int i, int m) {
 }
 
 void merge(vector<int> &nums1, int m, vector<int> &nums2, int n) {
-  int n2 = 0;
-  for (int i = 0; i < nums1.size(); i++) {
-    if (nums1[i] > nums2[n2]) {
-      shift_right(nums1, i, m - 1);
-      nums1[i] = nums2[n2];
-      n2++;
+  int curr = nums1.size() - 1;
+  m--;
+  n--;
+  while (n >= 0 && m >= 0) {
+    if (nums2[n] >= nums1[m]) {
+      nums1[curr] = nums2[n];
+      n = n - 1;
+      curr = curr - 1;
+    } else if (nums2[n] < nums1[m]) {
+      nums1[curr] = nums1[m];
+      m = m - 1;
+      curr = curr - 1;
     }
+  }
+
+  while (n >= 0) {
+    nums1[curr] = nums2[n];
+    n = n - 1;
+    curr = curr - 1;
   }
 };
 
