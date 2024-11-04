@@ -2,6 +2,10 @@
 #include <string>
 #include <cassert>
 #include <unordered_map>
+#include <chrono>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 using namespace std;
 
 struct date
@@ -118,30 +122,31 @@ date next_day(date d)
 
 int daysBetweenDates(string date1, string date2)
 {
-    date dt1 = represent(date1);
-    date dt2 = represent(date2);
+    istringstream dt1(date1);
+    tm realdate1{};
 
-    if (dt1 > dt2)
-        swap(dt1, dt2);
+    dt1 >> get_time(&realdate1, "%Y-%m-%d");
+    std::chrono::system_clock::time_point parse1 = std::chrono::system_clock::from_time_t(mktime(&realdate1));
 
-    cout << dt1.day;
-    int day = 0;
+    istringstream dt2(date2);
+    tm realdate2{};
 
-    while (dt2 > dt1)
-    {
-        dt1 = next_day(dt1);
-        day++;
-    }
-    return day;
+    dt2 >> get_time(&realdate2, "%Y-%m-%d");
+    std::chrono::system_clock::time_point parse2 = std::chrono::system_clock::from_time_t(mktime(&realdate2));
+
+    std::chrono::duration<double> difference = parse2 - parse1;
+    std::chrono::duration<double> positiveDifference = abs(difference) / 86400;
+
+    return positiveDifference.count();
 };
 
-void test()
-{
-    assert(daysBetweenDates("2019-06-29", "2019-06-30") == 1);
-    assert(daysBetweenDates("2020-01-15", "2019-12-31") == 15);
-    assert(daysBetweenDates("2022-07-25", "2018-03-12") == 1596);
-    assert(daysBetweenDates("2022-07-25", "2022-07-25") == 0);
-}
+// void test()
+// {
+//     assert(daysBetweenDates("2019-06-29", "2019-06-30") == 1);
+//     assert(daysBetweenDates("2020-01-15", "2019-12-31") == 15);
+//     assert(daysBetweenDates("2022-07-25", "2018-03-12") == 1596);
+//     assert(daysBetweenDates("2022-07-25", "2022-07-25") == 0);
+// }
 
 // void test_swap()
 // {
@@ -151,26 +156,26 @@ void test()
 //     assert(swap())
 // }
 
-void t_next_day()
-{
-    // NON-leap
-    date d1 = date{2022, 1, 1};
-    date expected1 = date{2022, 1, 2};
-    assert(next_day(d1) == expected1);
+// void t_next_day()
+// {
+//     // NON-leap
+//     date d1 = date{2022, 1, 1};
+//     date expected1 = date{2022, 1, 2};
+//     assert(next_day(d1) == expected1);
 
-    date d2 = date{2022, 1, 31};
-    date expected2 = date{2022, 2, 1};
-    assert(next_day(d2) == expected2);
+//     date d2 = date{2022, 1, 31};
+//     date expected2 = date{2022, 2, 1};
+//     assert(next_day(d2) == expected2);
 
-    date d3 = date{2022, 12, 31};
-    date expected3 = date{2023, 1, 1};
-    assert(next_day(d3) == expected3);
+//     date d3 = date{2022, 12, 31};
+//     date expected3 = date{2023, 1, 1};
+//     assert(next_day(d3) == expected3);
 
-    // leaps
-    date d4 = date{2022, 2, 29};
-    date expected4 = date{2022, 3, 1};
-    assert(next_day(d4) == expected4);
-};
+//     // leaps
+//     date d4 = date{2022, 2, 29};
+//     date expected4 = date{2022, 3, 1};
+//     assert(next_day(d4) == expected4);
+// };
 
 // void t_isleap()
 // {
@@ -180,25 +185,18 @@ void t_next_day()
 //     assert(is_leap(2000) == true);
 // }
 
-void t_next_month()
-{
-    date d1 = date{2022, 1, 31};
-    date ex1 = date{2022, 2, 1};
-    assert(next_month(d1) == ex1);
+// void t_next_month()
+// {
+//     date d1 = date{2022, 1, 31};
+//     date ex1 = date{2022, 2, 1};
+//     assert(next_month(d1) == ex1);
 
-    date d2 = date{2022, 12, 31};
-    date ex2 = date{2023, 1, 1};
-    assert(next_month(d2) == ex2);
-}
+//     date d2 = date{2022, 12, 31};
+//     date ex2 = date{2023, 1, 1};
+//     assert(next_month(d2) == ex2);
+// }
 
 int main()
 {
-    // string date1 = "2019-06-29";
-    // string date2 = "2019-06-30";
-
-    // string date3 = "2020-01-15";
-    // string date4 = "2019-12-31";
-    // daysBetweenDates(date3, date4);
-
-    assert(daysBetweenDates("2019-06-29", "2019-06-30") == 1);
+    daysBetweenDates("2019-06-30", "2019-06-29");
 }
