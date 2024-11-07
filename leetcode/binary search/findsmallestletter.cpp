@@ -6,7 +6,7 @@ using namespace std;
 
 int check_duplicates(vector<char> &lettters, int mid, int size)
 {
-    while (lettters[mid] == lettters[mid + 1])
+    while (mid < size && lettters[mid] == lettters[mid + 1])
         ++mid;
 
     return (mid == size) ? 0 : mid + 1;
@@ -26,11 +26,12 @@ char nextGreatestLetter(vector<char> &letters, char target)
         char guess = letters[mid];
 
         if (guess == target)
+        {
             if (mid == letters.size() - 1)
                 return letters[0];
 
-        return letters[check_duplicates(letters, mid, letters.size() - 1)];
-
+            return letters[check_duplicates(letters, mid, letters.size() - 1)];
+        }
         if (guess < target)
         {
             low = mid + 1;
@@ -41,7 +42,18 @@ char nextGreatestLetter(vector<char> &letters, char target)
         }
     }
 
-    return (letters[mid] < target) ? letters[mid + 1] : letters[mid];
+    if (mid < 0 || mid >= letters.size())
+    {
+        return letters[0];
+    }
+    else if (letters[mid] < target)
+    {
+        return letters[mid + 1];
+    }
+    else
+    {
+        return letters[mid];
+    }
 };
 
 void t_main()
@@ -94,7 +106,28 @@ void t_main()
                          'z'};
     char target7 = 'e';
     char expec7 = 'f';
-    assert(nextGreatestLetter(vec6, target6) == expec6);
+    assert(nextGreatestLetter(vec7, target7) == expec7);
+
+    vector<char> vec8 = {'c',
+                         'f',
+                         'j'};
+    char target8 = 'k';
+    char expec8 = 'c';
+    assert(nextGreatestLetter(vec8, target8) == expec8);
+
+    vector<char> vec9 = {'c',
+                         'f',
+                         'j'};
+    char target9 = 'd';
+    char expec9 = 'f';
+    assert(nextGreatestLetter(vec9, target9) == expec9);
+
+    vector<char> vec10 = {'e',
+                          'e',
+                          'g', 'g'};
+    char target10 = 'g';
+    char expec10 = 'e';
+    assert(nextGreatestLetter(vec10, target10) == expec10);
 }
 
 void t_dup()
