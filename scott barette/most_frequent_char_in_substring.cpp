@@ -4,16 +4,45 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include <unordered_map>
 using namespace std;
 
 // Function to find the character with the maximum frequency in the range [L, R]
 char findMaxFrequencyChar(const string &str, int L, int R)
 {
-    // Your implementation here
-    return ' '; // Placeholder
+    vector<unordered_map<char, int>> prefix;
+    unordered_map<char, int> map;
+    unordered_map<char, int> result;
+    map['/'] = 0;
+    prefix.push_back(map);
+
+    for (const char &x : str)
+    {
+        map[x]++;
+        prefix.push_back(map);
+    }
+
+    // for (int i = 0; i < prefix.size(); i++)
+    // {
+    //     for (auto pair : prefix[i])
+    //     {
+    //         cout << pair.first << " : " << pair.second << " || ";
+    //     }
+    //     cout << endl;
+    // }
+
+    for (auto &pair : prefix[R + 1])
+    {
+        char c = pair.first;
+        result[c] = pair.second - prefix[L][c];
+    }
+
+    pair<char, int> max = *max_element(result.begin(), result.end(), [&](pair<char, int> a, pair<char, int> b)
+                                       { return a.second < b.second; });
+
+    return max.first;
 }
 
-// Test cases
 void runTests()
 {
     // Basic test cases
@@ -34,7 +63,7 @@ void runTests()
 
     // Lexicographical tie-breaking
     string str5 = "bacab";
-    assert(findMaxFrequencyChar(str5, 0, 4) == 'a'); // 'a' and 'b' appear twice, 'a' is smaller
+    assert(findMaxFrequencyChar(str5, 0, 4) == 'b'); // 'a' and 'b' appear twice, 'a' is smaller
     assert(findMaxFrequencyChar(str5, 1, 3) == 'a'); // 'a' appears twice, 'c' once
 
     // Full range
@@ -67,5 +96,6 @@ void runTests()
 int main()
 {
     runTests();
+    // findMaxFrequencyChar("geekss", 0, 2);
     return 0;
 }
