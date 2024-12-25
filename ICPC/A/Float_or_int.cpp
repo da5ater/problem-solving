@@ -8,8 +8,15 @@ int main()
     double n;
     cin >> n;
 
-    if (typeid(n) == typeid(float))
+    float x = n - (int)n;
+
+    if (x == 0)
     {
-        cout << "float " << (int)n << " " << n - (int)n << endl;
+        cout << "int " << n << endl;
+    }
+    else
+    {
+
+        cout << "float " << (int)n << " " << x << endl;
     }
 }
