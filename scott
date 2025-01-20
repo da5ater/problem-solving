@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+struct TreeNode
+{
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x, left(left), right(right) {}
+};
+
+class Solution
+{
+public:
+    bool hasPathSum(TreeNode *root, int targetSum)
+    {
+        if (!root)
+            return flase;
+        int count = 0;
+        return dfs(root, targetSum, count);
+    }
+
+    bool dfs(TreeNode *node, int targetSum, int &count)
+    {
+
+        count += node->val;
+
+        if (!root->left && !root->right)
+        {
+            return count == taregetSum;
+        }
+
+        return dfs(node->left, targetSum, count);
+        return dfs(node->right, targetSum, count);
+
+        return false;
+    }
+};
+
+void T_main()
+{
+    Solution solution;
+
+    // Test case 1: [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+    TreeNode *root = new TreeNode(5);
+    root->left = new TreeNode(4);
+    root->right = new TreeNode(8);
+    root->left->left = new TreeNode(11);
+    root->right->left = new TreeNode(13);
+    root->right->right = new TreeNode(4);
+    root->left->left->left = new TreeNode(7);
+    root->left->left->right = new TreeNode(2);
+    root->right->right->right = new TreeNode(1);
+
+    cout << "Test 1: " << (solution.hasPathSum(root, 22) ? "true" : "false") << endl;
+}
